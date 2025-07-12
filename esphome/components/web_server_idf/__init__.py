@@ -10,5 +10,15 @@ CONFIG_SCHEMA = cv.All(
 
 
 async def to_code(config):
-    # Increase the maximum supported size of headers section in HTTP request packet to be processed by the server
-    add_idf_sdkconfig_option("CONFIG_HTTPD_MAX_REQ_HDR_LEN", 1024)
+    # HTTP server memory optimizations for ESP-IDF
+    # Maximum supported size of headers section in HTTP request packet
+    add_idf_sdkconfig_option("CONFIG_HTTPD_MAX_REQ_HDR_LEN", 512)  # Reduced from 1024
+
+    # Maximum supported size of URI in HTTP request
+    add_idf_sdkconfig_option("CONFIG_HTTPD_MAX_URI_LEN", 256)  # Default is 512
+
+    # Size of buffer to allocate for purge function
+    add_idf_sdkconfig_option("CONFIG_HTTPD_PURGE_BUF_LEN", 16)  # Default is 32
+
+    # Disable WebSocket support if not needed
+    add_idf_sdkconfig_option("CONFIG_HTTPD_WS_SUPPORT", False)
